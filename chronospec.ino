@@ -1,5 +1,7 @@
 #include "tom-thumb-tall.h"
 
+char * msg = "  Hello World  ";
+
 const int maxDataPin = 4;
 const int maxClockPin = 3;
 const int maxLoadPin = 2;
@@ -39,8 +41,31 @@ void setup() {
 }
 
 void loop() {
-    for (int i = 0; i < (127 - 32); i++) {
-        showPicture(tom_thumb_tall[i]);
-        delay(500);
+    int current_char = 0;
+    int current_col = 0;
+
+    while (1) {
+        int draw_char = current_char;
+        int draw_col = current_col;
+
+        for (int scan_col = 0; scan_col < 8; scan_col++) {
+            int char_idx = msg[draw_char] - 32;
+            int char_data = tom_thumb_tall[char_idx][draw_col];
+            setMaxRegister(scan_col + 1, char_data);
+            draw_col++;
+            if (draw_col > 3) {
+                draw_col = 0;
+                draw_char++;
+            }
+        }
+        delay(100);
+        current_col++;
+        if (current_col > 3) {
+            current_col = 0;
+            current_char++;
+        }
+        if (msg[current_char] == '\0') {
+            break;
+        }
     }
 }
