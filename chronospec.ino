@@ -1,29 +1,8 @@
+#include "tom-thumb-tall.h"
 
 const int maxDataPin = 4;
 const int maxClockPin = 3;
 const int maxLoadPin = 2;
-
-byte hi[] = {
-    0b01111111,
-    0b00001000,
-    0b01111111,
-    0b00000000,
-    0b01111010,
-    0b00000000,
-    0b01011111,
-    0b00000000,
-};
-
-byte smile[] = {
-    0b01111110,
-    0b10000001,
-    0b10010101,
-    0b10100001,
-    0b10010101,
-    0b10000001,
-    0b01111110,
-    0b00000000,
-};
 
 void setMaxRegister(byte regCode, byte value) {
     digitalWrite(maxLoadPin, LOW);
@@ -32,7 +11,7 @@ void setMaxRegister(byte regCode, byte value) {
     digitalWrite(maxLoadPin, HIGH);
 }
 
-void showPicture(byte pic[8]) {
+void showPicture(char pic[8]) {
     for (int i = 0; i < 8; i++) {
         setMaxRegister(i + 1, pic[i]);
     }
@@ -60,8 +39,8 @@ void setup() {
 }
 
 void loop() {
-    showPicture(smile);
-    delay(1000);
-    showPicture(hi);
-    delay(1000);
+    for (int i = 0; i < (127 - 32); i++) {
+        showPicture(tom_thumb_tall[i]);
+        delay(500);
+    }
 }
